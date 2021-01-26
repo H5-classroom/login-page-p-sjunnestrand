@@ -1,0 +1,18 @@
+/**{
+    border: solid 1px black;
+}*/
+header{
+    display: flex;
+    justify-content: space-between;
+}
+.inputs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.inputField{
+    height: 30px;
+}
+h1{
+    width: auto;
+}
