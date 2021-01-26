@@ -15,7 +15,20 @@ const headDynamic = document.getElementById('headDynamic');
 
 headDynamic.append(userInputField, pswInputField, btnLogIn);
 
-//array object with usernames and passwords
+const btnLogOut = document.createElement('button');
+btnLogOut.setAttribute('class', 'btnLogIn');
+btnLogOut.textContent = 'Log out';
+
+
+//creates dynamic items for main
+let welcome = document.createElement('section');
+let wcMessage = document.createElement('h1');
+
+wcMessage.insertAdjacentHTML('beforeend', 'Welcome visitor!');
+document.body.appendChild(welcome);
+welcome.appendChild(wcMessage);
+
+//object array with usernames and passwords
 let credentials = [
     {
         user : 'janne',
@@ -30,6 +43,17 @@ let credentials = [
         psw : 'freeman'
     },
 ];
+//initial page load checks if user is logged in or not
+let userLog = localStorage.getItem('userName');
+//console.log(userLog);
+if (userLog !== null) {
+    mainLogIn();
+    headerLogIn();
+} else {
+    mainLogOut();
+    headerLogOut();
+};
+//Function to validate username and password on button click. Adds username to local storage if correct.
 function checkLogIn() {
     let userInput = userInputField.value;
     let pswInput = pswInputField.value;
@@ -37,40 +61,53 @@ function checkLogIn() {
     for (cred in credentials) {
         //console.log(credentials[cred].psw);
         if (credentials[cred].user === userInput && credentials[cred].psw === pswInput){
+            localStorage.setItem('userName', credentials[cred].user);
+            //userName = localStorage.getItem('userName');
             return true;
         } else {
-            console.log(cred);
+            //console.log(cred);
             continue;
         }
     }
 }
+//Adds logged in main w personal welcome msg
+function mainLogIn() {
+    userLog = localStorage.getItem('userName');
+    wcMessage.innerHTML = '';
+    wcMessage.insertAdjacentHTML('beforeend', `Welcome ${userLog}!`);
+};
+//Adds logged out main w generic welcome msg
+function mainLogOut() {
+    localStorage.clear();
+    wcMessage.innerHTML = '';
+    wcMessage.insertAdjacentHTML('beforeend', 'Welcome visitor!');
+};
+//Adds logged in header w/o log in fields/btn & w log out btn
+function headerLogIn() {
+    userInputField.remove();
+    pswInputField.remove();
+    btnLogIn.remove();
+    //console.log('header update!');
+    headDynamic.appendChild(btnLogOut);
+};
+//Adds logged out header w log in fields/btn
+function headerLogOut() {
+    btnLogOut.remove();
+    headDynamic.append(userInputField, pswInputField, btnLogIn);
+}
+//log in button click
 btnLogIn.addEventListener('click', function() {
-    console.log(checkLogIn());
+   // console.log(checkLogIn());
     if (checkLogIn()){
-        console.log('Welcome!');
+        //console.log('Welcome!');
+        mainLogIn();
+        headerLogIn();
     } else {
-        console.log('Acces denied!');
+        //console.log('Acces denied!');
     }
 });
-/*
-//Click on button to validate username and password
-btnLogIn.addEventListener('click', function (){
-    //console.log(credentials.user[2]);
-    let userInput = userInputField.value;
-    let pswInput = pswInputField.value;
-    //console.log(userInput, pswInput);
-    for (cred in credentials.user) {
-        console.log(credentials.user[cred]);
-        if (credentials.user[cred] === userInput){
-            for (cred in credentials.psw){
-                if (credentials.psw[cred] === pswInput){
-                    console.log('hello!');
-                    break;
-                }
-            } 
-            break; 
-        } else { 
-            console.log('no!');
-            }
-        }
-});*/
+//log out btn click
+btnLogOut.addEventListener('click', function(){
+    headerLogOut();
+    mainLogOut();
+});

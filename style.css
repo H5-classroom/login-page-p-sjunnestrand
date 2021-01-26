@@ -15,4 +15,8 @@ header{
 }
 h1{
     width: auto;
+    color: white;
+}
+body{
+    background-color: navy;
 }
