@@ -1,5 +1,5 @@
 const header = document.getElementById('header');
-console.log(header);
+//console.log(header);
 
 //creates fields and button for logging in
 let userInputField = document.createElement('input');
@@ -18,19 +18,41 @@ headDynamic.append(userInputField, pswInputField, btnLogIn);
 //array object with usernames and passwords
 let credentials = [
     {
-        'user' : 'janne',
-        'psw' : 'test'
+        user : 'janne',
+        psw : 'test'
     },
     {
-        'user' : 'petter',
-        'psw' : 'password'
+        user : 'petter',
+        psw : 'password'
     },
     {
-        'user' : 'gordon',
-        'psw' : 'freeman'
-    }
+        user : 'gordon',
+        psw : 'freeman'
+    },
 ];
-
+function checkLogIn() {
+    let userInput = userInputField.value;
+    let pswInput = pswInputField.value;
+    //console.log(credentials);
+    for (cred in credentials) {
+        //console.log(credentials[cred].psw);
+        if (credentials[cred].user === userInput && credentials[cred].psw === pswInput){
+            return true;
+        } else {
+            console.log(cred);
+            continue;
+        }
+    }
+}
+btnLogIn.addEventListener('click', function() {
+    console.log(checkLogIn());
+    if (checkLogIn()){
+        console.log('Welcome!');
+    } else {
+        console.log('Acces denied!');
+    }
+});
+/*
 //Click on button to validate username and password
 btnLogIn.addEventListener('click', function (){
     //console.log(credentials.user[2]);
@@ -51,7 +73,4 @@ btnLogIn.addEventListener('click', function (){
             console.log('no!');
             }
         }
-});
-
-
-
+});*/
