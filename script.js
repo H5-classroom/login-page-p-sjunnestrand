@@ -1,4 +1,5 @@
 const header = document.getElementById('header');
+const mainSect = document.getElementById('main');
 //console.log(header);
 
 //creates fields and button for logging in
@@ -8,7 +9,7 @@ pswInputField.setAttribute('class', 'inputField');
 userInputField.setAttribute('class', 'inputField');
 
 const btnLogIn = document.createElement('button');
-btnLogIn.setAttribute('class', 'btnLogIn');
+btnLogIn.setAttribute('class', 'btnLog');
 btnLogIn.textContent = 'Log in';
 
 const headDynamic = document.getElementById('headDynamic');
@@ -16,16 +17,17 @@ const headDynamic = document.getElementById('headDynamic');
 headDynamic.append(userInputField, pswInputField, btnLogIn);
 
 const btnLogOut = document.createElement('button');
-btnLogOut.setAttribute('class', 'btnLogIn');
+btnLogOut.setAttribute('class', 'btnLog btnLogOut');
 btnLogOut.textContent = 'Log out';
 
 
 //creates dynamic items for main
 let welcome = document.createElement('section');
 let wcMessage = document.createElement('h1');
+wcMessage.setAttribute('class', 'welcome')
 
-wcMessage.insertAdjacentHTML('beforeend', 'Welcome visitor!');
-document.body.appendChild(welcome);
+//wcMessage.insertAdjacentHTML('beforeend', 'Welcome visitor!');
+mainSect.appendChild(welcome);
 welcome.appendChild(wcMessage);
 
 //object array with usernames and passwords
