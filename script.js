@@ -5,9 +5,13 @@ const mainSect = document.getElementById('main');
 
 //creates fields and button for logging in
 let userInputField = document.createElement('input');
+userInputField.setAttribute('class', 'inputField');
+userInputField.setAttribute('placeholder', 'Username...')
 let pswInputField = document.createElement('input');
 pswInputField.setAttribute('class', 'inputField');
-userInputField.setAttribute('class', 'inputField');
+pswInputField.setAttribute('type', 'password');
+pswInputField.setAttribute('placeholder', 'Password...')
+
 
 const btnLogIn = document.createElement('button');
 btnLogIn.setAttribute('class', 'btnLog');

@@ -45,6 +45,13 @@ header{
     font-family: 'Titillium Web', sans-serif; 
     font-size: large;
 }
+.btnLog:hover{
+    background-color: rgba(3, 166, 172, 0.2);
+}
+.btnLog:active{
+    background-color: rgb(3, 166, 172);
+    color: white;
+}
 .btnLogOut{
     width: 80px;
     padding: 1%;
@@ -112,4 +119,7 @@ label{
     padding: 1%;
     height: auto;
     margin-top: 6%;
+}
+::placeholder{
+    color: rgba(3, 166, 172, 0.4);
 }
