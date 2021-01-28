@@ -1,3 +1,4 @@
+//imports header and main sections
 const header = document.getElementById('header');
 const mainSect = document.getElementById('main');
 //console.log(header);
@@ -12,17 +13,17 @@ const btnLogIn = document.createElement('button');
 btnLogIn.setAttribute('class', 'btnLog');
 btnLogIn.textContent = 'Log in';
 
+//creates sign up button
 const btnSignUp = document.createElement('button');
 btnSignUp.setAttribute('class', 'btnLog btnSignUp');
 btnSignUp.textContent = 'Sign up';
 
 const headDynamic = document.getElementById('headDynamic');
 
+//creates log out button
 const btnLogOut = document.createElement('button');
 btnLogOut.setAttribute('class', 'btnLog btnLogOut');
 btnLogOut.textContent = 'Log out';
-
-//headDynamic.append(userInputField, pswInputField, btnLogIn, btnSignUp);
 
 //creates dynamic items for main
 let welcome = document.createElement('section');
@@ -55,11 +56,10 @@ textUserPsw.insertAdjacentHTML('beforeend', 'Password:');
 
 signUpDiv.append(textUserName, textUserPsw, signUpName, textUserPsw, signUpPsw, btnCreateAccount, btnCancel);
 
-//wcMessage.insertAdjacentHTML('beforeend', 'Welcome visitor!');
 mainSect.appendChild(welcome);
 welcome.appendChild(wcMessage);
 
-//object array with usernames and passwords
+//initial object array with usernames and passwords
 let credentials = [
     {
         user : 'janne',
@@ -74,20 +74,20 @@ let credentials = [
         psw : 'freeman'
     },
 ];
+//array that copies what's in localStorage
 let userDataBase;
 
+//checks wether localStorage exists and updates it with array if not
 if (localStorage.getItem('userDataBase') == null) {
     localStorage.setItem('userDataBase', JSON.stringify(credentials));
     console.log('finns ej');
-} else {
-    console.log('finns!');
 }
+//copies LS into array
 userDataBase = JSON.parse(localStorage.getItem('userDataBase'));
 console.log(userDataBase);
-//localStorage.setItem('userDataBase', JSON.stringify(credentials));
 //console.log(localStorage.getItem('userDataBase'));
 
-//initial page load checks if user is logged in or not
+//initial page load checks if user is logged in or not and adds appropriate content
 let userLog = localStorage.getItem('userName');
 //console.log(userLog);
 if (userLog !== null) {
@@ -112,7 +112,7 @@ function checkLogIn() {
         }
     }
 }
-//Adds logged in main w personal welcome msg
+//Adds logged in main content w personal welcome msg
 function mainLogIn() {
     signUpDiv.remove();
     userLog = localStorage.getItem('userName');
@@ -137,6 +137,7 @@ function mainSignUp(){
     wcMessage.innerHTML = 'Choose username and password for you account';
     welcome.appendChild(signUpDiv);
 }
+//Adds confirmation when new account is created
 function mainAccCreated() {
     signUpDiv.remove();
     wcMessage.innerHTML = '';
@@ -173,12 +174,15 @@ btnLogOut.addEventListener('click', function(){
     headerLogOut();
     mainLogOut();
 });
+//sign out btn click
 btnSignUp.addEventListener('click', function(){
     mainSignUp();
 });
+//cancel button click
 btnCancel.addEventListener('click', function(){
     mainLogOut();
 });
+//create account btn click. Creates account with entered username & psw & pushes object to array & LS. If fields are empty, gives error msg.
 btnCreateAccount.addEventListener('click', function(){
     console.log('click');
     if (signUpName.value === '' || signUpPsw.value === '') {
