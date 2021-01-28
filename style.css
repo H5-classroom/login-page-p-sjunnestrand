@@ -22,6 +22,7 @@ header{
     justify-content: space-between;
     align-items: center;
     padding: 1%;
+    width: auto;
 }
 .inputField{
     font-size: 20px;
@@ -31,6 +32,9 @@ header{
     font-family: 'Titillium Web', sans-serif; 
     padding: 1px;
     border-radius: 10px;
+}
+.inputFieldSignUp{
+    width: 100%;
 }
 .btnLog{
     height: 38px;
@@ -42,7 +46,8 @@ header{
     font-size: large;
 }
 .btnLogOut{
-    width: 100%;
+    width: 80px;
+    padding: 1%;
 }
 h1{
     width: auto;
@@ -68,6 +73,7 @@ section{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 .circle{
     height: 150px;
@@ -89,4 +95,21 @@ section{
 }
 .logo{
     position: absolute;
+}
+.signUpDiv{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 30%;
+    justify-content: space-evenly;
+}
+label{
+    color:rgb(3, 166, 172);
+    font-family: 'Titillium Web', sans-serif;
+}
+.btnCreate{
+    width: auto;
+    padding: 1%;
+    height: auto;
+    margin-top: 6%;
 }
