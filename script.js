@@ -52,6 +52,7 @@ const signUpName = document.createElement('input');
 const signUpPsw = document.createElement('input');
 signUpName.setAttribute('class', 'inputField inputFieldSignUp');
 signUpPsw.setAttribute('class', 'inputField inputFieldSignUp');
+signUpPsw.setAttribute('type', 'password');
 
 const btnCreateAccount = document.createElement('button');
 btnCreateAccount.setAttribute('class', 'btnLog btnCreate');
@@ -148,14 +149,14 @@ function mainError() {
 }
 //Adds fields for creating new account in main
 function mainSignUp(){
-    wcMessage.innerHTML = 'Choose username and password for you account.';
+    wcMessage.innerHTML = 'Choose username and password for your account.';
     welcome.appendChild(signUpDiv);
 }
 //Adds confirmation when new account is created
-function mainAccCreated() {
+function mainAccCreated(createdUser) {
     signUpDiv.remove();
     wcMessage.innerHTML = '';
-    wcMessage.insertAdjacentHTML('beforeend', `Account with created!`);
+    wcMessage.insertAdjacentHTML('beforeend', `Account with username ${createdUser} created!`);
 }
 //Adds logged in header w/o log in fields/btn & w log out btn
 function headerLogIn() {
@@ -210,6 +211,6 @@ btnCreateAccount.addEventListener('click', function(){
         localStorage.setItem('userDataBase', JSON.stringify(userDataBase));
         console.log(newUser);
         console.log(userDataBase);
-        mainAccCreated();
+        mainAccCreated(signUpName.value);
     };
 });
