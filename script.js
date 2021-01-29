@@ -3,6 +3,13 @@ const header = document.getElementById('header');
 const mainSect = document.getElementById('main');
 //console.log(header);
 
+const circleFrst = document.createElement('div');
+circleFrst.setAttribute('class', 'circle');
+const circleScnd = document.createElement('div');
+circleScnd.setAttribute('class', 'circle');
+circleScnd.classList.add('circle2');
+mainSect.append(circleFrst, circleScnd);
+
 //creates fields and button for logging in
 let userInputField = document.createElement('input');
 userInputField.setAttribute('class', 'inputField');
@@ -22,7 +29,10 @@ const btnSignUp = document.createElement('button');
 btnSignUp.setAttribute('class', 'btnLog btnSignUp');
 btnSignUp.textContent = 'Sign up';
 
-const headDynamic = document.getElementById('headDynamic');
+//creates field for login inputs & btn
+const headDynamic = document.createElement('div');
+headDynamic.setAttribute('class', 'inputs');
+header.appendChild(headDynamic);
 
 //creates log out button
 const btnLogOut = document.createElement('button');
@@ -138,7 +148,7 @@ function mainError() {
 }
 //Adds fields for creating new account in main
 function mainSignUp(){
-    wcMessage.innerHTML = 'Choose username and password for you account';
+    wcMessage.innerHTML = 'Choose username and password for you account.';
     welcome.appendChild(signUpDiv);
 }
 //Adds confirmation when new account is created
@@ -190,7 +200,7 @@ btnCancel.addEventListener('click', function(){
 btnCreateAccount.addEventListener('click', function(){
     console.log('click');
     if (signUpName.value === '' || signUpPsw.value === '') {
-        wcMessage.innerHTML = 'Username and password must be at least one charachter long each!'
+        wcMessage.innerHTML = 'Username and password must be at least one character long each!'
     } else {
         let newUser = {
             user : signUpName.value,
