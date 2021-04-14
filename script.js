@@ -1,3 +1,5 @@
+// const { stringify } = require("qs");
+
 //imports header and main sections
 const header = document.getElementById('header');
 const mainSect = document.getElementById('main');
@@ -92,15 +94,15 @@ let credentials = [
 //array that copies what's in localStorage
 let userDataBase;
 
-//checks wether localStorage exists and updates it with array if not
-if (localStorage.getItem('userDataBase') == null) {
-    localStorage.setItem('userDataBase', JSON.stringify(credentials));
-    console.log('finns ej');
-}
-//copies LS into array
-userDataBase = JSON.parse(localStorage.getItem('userDataBase'));
-console.log(userDataBase);
-//console.log(localStorage.getItem('userDataBase'));
+// //checks wether localStorage exists and updates it with array if not
+// if (localStorage.getItem('userDataBase') == null) {
+//     localStorage.setItem('userDataBase', JSON.stringify(credentials));
+//     console.log('finns ej');
+// }
+// //copies LS into array
+// userDataBase = JSON.parse(localStorage.getItem('userDataBase'));
+// console.log(userDataBase);
+// //console.log(localStorage.getItem('userDataBase'));
 
 //initial page load checks if user is logged in or not and adds appropriate content
 let userLog = localStorage.getItem('userName');
@@ -114,18 +116,28 @@ if (userLog !== null) {
 };
 //Function to validate username and password on button click. Adds username to local storage if correct.
 function checkLogIn() {
-    let userInput = userInputField.value;
-    let pswInput = pswInputField.value;
+    let userInput = {"user": userInputField.value, "password": pswInputField.value};
+    console.log(userInput);
+    fetch('http://localhost:3000/login', {
+        method: 'post',
+        headers: {
+            'Content-Type': "application/json"
+        },
+        body: JSON.stringify(userInput)
+    })
+    .then(res => res.json)
+    .then(data => {
+    })
     //console.log(userDataBase);
-    for (user in userDataBase) {
-        //console.log(userDataBase[user].psw);
-        if (userDataBase[user].user === userInput && userDataBase[user].psw === pswInput){
-            localStorage.setItem('userName', userDataBase[user].user);
-            return true;
-        } else {
-            continue;
-        }
-    }
+    // for (user in userDataBase) {
+    //     //console.log(userDataBase[user].psw);
+    //     if (userDataBase[user].user === userInput && userDataBase[user].psw === pswInput){
+    //         localStorage.setItem('userName', userDataBase[user].user);
+    //         return true;
+    //     } else {
+    //         continue;
+    //     }
+    // }
 }
 //Adds logged in main content w personal welcome msg
 function mainLogIn() {
