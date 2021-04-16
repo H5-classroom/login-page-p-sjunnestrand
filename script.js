@@ -229,14 +229,26 @@ btnCreateAccount.addEventListener('click', function(){
         wcMessage.innerHTML = 'Username and password must be at least one character long each!'
     } else {
         let newUser = {
-            user : signUpName.value,
-            psw : signUpPsw.value
+            "user" : signUpName.value,
+            "password" : signUpPsw.value
         }
-        userDataBase.push(newUser);
-        localStorage.setItem('userDataBase', JSON.stringify(userDataBase));
-        console.log(newUser);
-        console.log(userDataBase);
-        mainAccCreated(signUpName.value);
+        fetch('http://localhost:3000/login/createAccount', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
+        })
+        .then(res => res.json())
+        .then(data => {
+        console.log(data);
+        mainAccCreated(data);
+    })
+        // userDataBase.push(newUser);
+        // localStorage.setItem('userDataBase', JSON.stringify(userDataBase));
+        // console.log(newUser);
+        // console.log(userDataBase);
+        // mainAccCreated(signUpName.value);
     };
 });
 function loggedInPageLoad(userIdLS) {
