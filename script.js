@@ -77,22 +77,22 @@ mainSect.appendChild(welcome);
 welcome.appendChild(wcMessage);
 
 //initial object array with usernames and passwords
-let credentials = [
-    {
-        user : 'janne',
-        psw : 'test'
-    },
-    {
-        user : 'petter',
-        psw : 'password'
-    },
-    {
-        user : 'gordon',
-        psw : 'freeman'
-    },
-];
+// let credentials = [
+//     {
+//         user : 'janne',
+//         psw : 'test'
+//     },
+//     {
+//         user : 'petter',
+//         psw : 'password'
+//     },
+//     {
+//         user : 'gordon',
+//         psw : 'freeman'
+//     },
+// ];
 //array that copies what's in localStorage
-let userDataBase;
+// let userDataBase;
 
 // //checks wether localStorage exists and updates it with array if not
 // if (localStorage.getItem('userDataBase') == null) {
@@ -105,17 +105,19 @@ let userDataBase;
 // //console.log(localStorage.getItem('userDataBase'));
 
 //initial page load checks if user is logged in or not and adds appropriate content
-let userLog = localStorage.getItem('userName');
-//console.log(userLog);
+let userLog = localStorage.getItem('userId');
+console.log(userLog);
 if (userLog !== null) {
-    mainLogIn();
-    headerLogIn();
+    loggedInPageLoad(userLog);
+    //mainLogIn();
+    //headerLogIn();
 } else {
     mainLogOut();
     headerLogOut();
 };
 //Function to validate username and password on button click. Adds username to local storage if correct.
 function checkLogIn() {
+    //sends entered values to server
     let userInput = {"user": userInputField.value, "password": pswInputField.value};
     console.log(userInput);
     fetch('http://localhost:3000/login', {
@@ -125,8 +127,19 @@ function checkLogIn() {
         },
         body: JSON.stringify(userInput)
     })
-    .then(res => res.json)
-    .then(data => {
+    //checks answer from server
+    .then(res => res.json())
+    .then(res => {
+        console.log(res)
+        if(res.user == "denied"){
+            console.log("denied!");
+            mainError();
+        } else {
+            console.log("welcome!");
+            localStorage.setItem('userId', res.id);
+            mainLogIn(res.user);
+            headerLogIn();
+        }
     })
     //console.log(userDataBase);
     // for (user in userDataBase) {
@@ -140,16 +153,16 @@ function checkLogIn() {
     // }
 }
 //Adds logged in main content w personal welcome msg
-function mainLogIn() {
+function mainLogIn(userName) {
     signUpDiv.remove();
-    userLog = localStorage.getItem('userName');
+    console.log(localStorage.getItem('userId'));
     wcMessage.innerHTML = '';
-    wcMessage.insertAdjacentHTML('beforeend', `Welcome ${userLog}!`);
+    wcMessage.insertAdjacentHTML('beforeend', `Welcome ${userName}!`);
 };
 //Adds logged out main w generic welcome msg
 function mainLogOut() {
     signUpDiv.remove();
-    localStorage.removeItem('userName');
+    localStorage.removeItem('userId');
     wcMessage.innerHTML = '';
     wcMessage.insertAdjacentHTML('beforeend', 'Welcome visitor!');
 };
@@ -186,15 +199,15 @@ function headerLogOut() {
 }
 //log in button click
 btnLogIn.addEventListener('click', function() {
+    checkLogIn();
     // console.log(checkLogIn());
-    if (checkLogIn()){
-        //console.log('Welcome!');
-        mainLogIn();
-        headerLogIn();
-    } else {
-        mainError();
-        //console.log('Acces denied!');
-    }
+    // if (checkLogIn()){
+    //     //console.log('Welcome!');
+    //     mainLogIn();
+    //     headerLogIn();
+    // } else {
+    //     mainError();
+    //     //console.log('Acces denied!');
 });
 //log out btn click
 btnLogOut.addEventListener('click', function(){
@@ -226,3 +239,21 @@ btnCreateAccount.addEventListener('click', function(){
         mainAccCreated(signUpName.value);
     };
 });
+function loggedInPageLoad(userIdLS) {
+    let userIdPost = {"id": userIdLS}
+    console.log(userIdPost);
+    fetch ('http://localhost:3000/login/loggedIn', {
+        method: 'post',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(userIdPost)
+    })
+    .then(res => res.json())
+    .then(data => {
+        // localStorage.setItem('userId', data);
+        console.log(localStorage.getItem('userId'));
+        mainLogIn(data);
+        headerLogIn();
+    })
+}
