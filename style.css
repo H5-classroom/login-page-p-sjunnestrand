@@ -1,0 +1,125 @@
+*{
+    margin: 0;
+    padding: 0;   
+}
+body{
+    background: linear-gradient(135deg, rgba(3, 244, 252, 0.8), rgba(143, 188, 255, 0.8));
+    /*height: 100vh;*/
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2));
+    width: 100vw;
+    height: 10vh;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 5px 15px rgba(3, 166, 172, 0.6);
+}
+.inputs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1%;
+    width: auto;
+}
+.inputField{
+    font-size: 20px;
+    width: 33%;
+    border: 2px solid rgb(3, 166, 172);
+    color:rgb(3, 166, 172);
+    font-family: 'Titillium Web', sans-serif; 
+    padding: 1px;
+    border-radius: 10px;
+}
+.inputFieldSignUp{
+    width: 100%;
+}
+.btnLog{
+    height: 38px;
+    width: 15%;
+    border: 2px solid rgb(3, 166, 172);
+    border-radius: 10px;
+    color:rgb(3, 166, 172);
+    font-family: 'Titillium Web', sans-serif; 
+    font-size: large;
+}
+.btnLog:hover{
+    background-color: rgba(3, 166, 172, 0.2);
+}
+.btnLog:active{
+    background-color: rgb(3, 166, 172);
+    color: white;
+}
+.btnLogOut{
+    width: 80px;
+    padding: 1%;
+}
+h1{
+    width: auto;
+    color: rgb(3, 166, 172);
+    padding: 1%;
+    font-family: 'Titillium Web', sans-serif;
+}
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+section{
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
+    height: 80vh;
+    width: 80vh;
+    border-radius: 10%;
+    z-index: 2;
+    position: relative;
+    backdrop-filter: blur(5px);
+    box-shadow: 5px 5px 15px rgba(3, 166, 172, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.circle{
+    height: 150px;
+    width: 150px;
+    position: absolute;
+    right: 25vw;
+    top: 7vh;
+    background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1));
+    border-radius: 50%;
+    z-index: 1;
+}
+.circle2{
+    left: 25vw;
+    top: 65vh;
+    z-index: 1;   
+}
+.welcome{
+    padding: 6%;
+}
+.logo{
+    position: absolute;
+}
+.signUpDiv{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 30%;
+    justify-content: space-evenly;
+}
+label{
+    color:rgb(3, 166, 172);
+    font-family: 'Titillium Web', sans-serif;
+}
+.btnCreate{
+    width: auto;
+    padding: 1%;
+    height: auto;
+    margin-top: 6%;
+}
+::placeholder{
+    color: rgba(3, 166, 172, 0.4);
+}
