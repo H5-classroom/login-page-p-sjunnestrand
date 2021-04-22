@@ -120,7 +120,7 @@ function checkLogIn() {
     //sends entered values to server
     let userInput = {"user": userInputField.value, "password": pswInputField.value};
     console.log(userInput);
-    fetch('https://sheltered-hamlet-98653.herokuapp.com/login/', {
+    fetch('https://sjunnestrand-login-server.herokuapp.com/login/', {
         method: 'post',
         headers: {
             'Content-Type': "application/json"
@@ -236,7 +236,7 @@ btnCreateAccount.addEventListener('click', function(){
             "user" : signUpName.value,
             "password" : signUpPsw.value
         }
-        fetch('https://sheltered-hamlet-98653.herokuapp.com/login/createAccount/', {
+        fetch('https://sjunnestrand-login-server.herokuapp.com/login/createAccount/', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -263,7 +263,7 @@ btnCreateAccount.addEventListener('click', function(){
 function loggedInPageLoad(userIdLS) {
     let userIdPost = {"_id": userIdLS}
     console.log(userIdPost);
-    fetch ('https://sheltered-hamlet-98653.herokuapp.com//login/loggedIn/', {
+    fetch ('https://sjunnestrand-login-server.herokuapp.com/login/loggedIn/', {
         method: 'post',
         headers: {
             'Content-Type' : 'application/json'
