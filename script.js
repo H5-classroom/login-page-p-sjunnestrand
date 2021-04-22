@@ -136,8 +136,9 @@ function checkLogIn() {
             mainError();
         } else {
             console.log("welcome!");
-            localStorage.setItem('userId', res.id);
-            mainLogIn(res.user);
+            // console.log(res);
+            // localStorage.setItem('userId', res.id);
+            mainLogIn(res);
             headerLogIn();
         }
     })
@@ -152,12 +153,15 @@ function checkLogIn() {
     //     }
     // }
 }
-//Adds logged in main content w personal welcome msg
+//Adds logged in main content w personal welcome msg and adds _id to LS
 function mainLogIn(userName) {
     signUpDiv.remove();
+    localStorage.removeItem('userId');
+    localStorage.setItem('userId', userName._id);
     console.log(localStorage.getItem('userId'));
+    console.log(userName.user);
     wcMessage.innerHTML = '';
-    wcMessage.insertAdjacentHTML('beforeend', `Welcome ${userName}!`);
+    wcMessage.insertAdjacentHTML('beforeend', `Welcome ${userName.user}!`);
 };
 //Adds logged out main w generic welcome msg
 function mainLogOut() {
@@ -241,8 +245,13 @@ btnCreateAccount.addEventListener('click', function(){
         })
         .then(res => res.json())
         .then(data => {
-        console.log(data);
-        mainAccCreated(data);
+            if(data == "taken"){
+                wcMessage.insertAdjacentHTML('afterbegin', `<div id = "warningMsg">Username not available! Please pick another!</div>`);
+            } else {
+                console.log(data);
+                mainAccCreated(data);
+            }
+            
     })
         // userDataBase.push(newUser);
         // localStorage.setItem('userDataBase', JSON.stringify(userDataBase));
@@ -252,7 +261,7 @@ btnCreateAccount.addEventListener('click', function(){
     };
 });
 function loggedInPageLoad(userIdLS) {
-    let userIdPost = {"id": userIdLS}
+    let userIdPost = {"_id": userIdLS}
     console.log(userIdPost);
     fetch ('http://localhost:3000/login/loggedIn', {
         method: 'post',
@@ -263,8 +272,9 @@ function loggedInPageLoad(userIdLS) {
     })
     .then(res => res.json())
     .then(data => {
+        console.log(data);
         // localStorage.setItem('userId', data);
-        console.log(localStorage.getItem('userId'));
+        // console.log(localStorage.getItem('userId'));
         mainLogIn(data);
         headerLogIn();
     })

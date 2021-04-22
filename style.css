@@ -123,3 +123,9 @@ label{
 ::placeholder{
     color: rgba(3, 166, 172, 0.4);
 }
+#warningMsg{
+    color: red;
+    font-family: 'Titillium Web', sans-serif; 
+    font-size: 1.4rem;
+    text-shadow: 0 0 5px white;
+}
