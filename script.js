@@ -120,7 +120,7 @@ function checkLogIn() {
     //sends entered values to server
     let userInput = {"user": userInputField.value, "password": pswInputField.value};
     console.log(userInput);
-    fetch('http://localhost:3000/login', {
+    fetch('https://sjunnestrand-login-server.herokuapp.com/login', {
         method: 'post',
         headers: {
             'Content-Type': "application/json"
