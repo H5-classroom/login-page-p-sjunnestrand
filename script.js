@@ -89,7 +89,7 @@ newsLetterSignUpText.innerHTML = 'Sign me up for the Black Mesa newsletter.';
 newsLetterSignUpDiv.append(newsLetterSignUpCheckDiv, newsLetterSignUpText);
 
 
-signUpDiv.append(textUserName, textUserPsw, signUpName, textUserPsw, signUpEmail, textUserEmail, signUpPsw, newsLetterSignUpDiv, btnCreateAccount, btnCancel);
+signUpDiv.append(textUserName, textUserPsw, signUpName, textUserPsw, signUpPsw, textUserEmail, signUpEmail, newsLetterSignUpDiv, btnCreateAccount, btnCancel);
 
 mainSect.appendChild(welcome);
 welcome.appendChild(wcMessage);
@@ -192,7 +192,8 @@ function mainSignUp(){
 function mainAccCreated(createdUser) {
     signUpDiv.remove();
     wcMessage.innerHTML = '';
-    wcMessage.insertAdjacentHTML('beforeend', `Account with username ${createdUser} created!`);
+    wcMessage.insertAdjacentHTML('beforeend', `Account with username ${createdUser.user} created!`);
+    setTimeout(()=>{mainLogIn(createdUser), headerLogIn}, 1000);
 }
 //Adds logged in header w/o log in fields/btn & w log out btn
 function headerLogIn() {
