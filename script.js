@@ -56,6 +56,9 @@ signUpName.setAttribute('class', 'inputField inputFieldSignUp');
 signUpPsw.setAttribute('class', 'inputField inputFieldSignUp');
 signUpPsw.setAttribute('type', 'password');
 
+const signUpEmail = document.createElement('input');
+signUpEmail.setAttribute('class', 'inputField inputFieldSignUp');
+
 const btnCreateAccount = document.createElement('button');
 btnCreateAccount.setAttribute('class', 'btnLog btnCreate');
 btnCreateAccount.textContent = 'Create Account';
@@ -70,47 +73,32 @@ textUserName.insertAdjacentHTML('beforeend', 'Username:');
 let textUserPsw = document.createElement('label');
 textUserPsw.setAttribute('for', 'password');
 textUserPsw.insertAdjacentHTML('beforeend', 'Password:');
+let textUserEmail = document.createElement('label');
+textUserEmail.setAttribute('for', 'email');
+textUserEmail.insertAdjacentHTML('beforeend', 'Email:');
 
-signUpDiv.append(textUserName, textUserPsw, signUpName, textUserPsw, signUpPsw, btnCreateAccount, btnCancel);
+const newsLetterSignUpDiv = document.createElement('div');
+newsLetterSignUpDiv.classList.add('newsLetterSignUpDiv');
+const newsLetterSignUpCheckDiv = document.createElement('div');
+newsLetterSignUpCheckDiv.classList.add('newsLetterSignUpCheckDiv');
+newsLetterSignUpCheckDiv.insertAdjacentHTML('beforeend', `<input type = "checkbox" id = "newsLetterSignUpCheckBox">`);
+const newsLetterSignUpText = document.createElement('div');
+newsLetterSignUpText.classList.add('newsLetterSignUpText');
+newsLetterSignUpText.innerHTML = 'Sign me up for the Black Mesa newsletter.';
+
+newsLetterSignUpDiv.append(newsLetterSignUpCheckDiv, newsLetterSignUpText);
+
+
+signUpDiv.append(textUserName, textUserPsw, signUpName, textUserPsw, signUpEmail, textUserEmail, signUpPsw, newsLetterSignUpDiv, btnCreateAccount, btnCancel);
 
 mainSect.appendChild(welcome);
 welcome.appendChild(wcMessage);
-
-//initial object array with usernames and passwords
-// let credentials = [
-//     {
-//         user : 'janne',
-//         psw : 'test'
-//     },
-//     {
-//         user : 'petter',
-//         psw : 'password'
-//     },
-//     {
-//         user : 'gordon',
-//         psw : 'freeman'
-//     },
-// ];
-//array that copies what's in localStorage
-// let userDataBase;
-
-// //checks wether localStorage exists and updates it with array if not
-// if (localStorage.getItem('userDataBase') == null) {
-//     localStorage.setItem('userDataBase', JSON.stringify(credentials));
-//     console.log('finns ej');
-// }
-// //copies LS into array
-// userDataBase = JSON.parse(localStorage.getItem('userDataBase'));
-// console.log(userDataBase);
-// //console.log(localStorage.getItem('userDataBase'));
 
 //initial page load checks if user is logged in or not and adds appropriate content
 let userLog = localStorage.getItem('userId');
 console.log(userLog);
 if (userLog !== null) {
     loggedInPageLoad(userLog);
-    //mainLogIn();
-    //headerLogIn();
 } else {
     mainLogOut();
     headerLogOut();
@@ -120,7 +108,7 @@ function checkLogIn() {
     //sends entered values to server
     let userInput = {"user": userInputField.value, "password": pswInputField.value};
     console.log(userInput);
-    fetch('https://sjunnestrand-login-server.herokuapp.com/login/', {
+    fetch('http://localhost:3000/login/', {
         method: 'post',
         headers: {
             'Content-Type': "application/json"
@@ -137,31 +125,45 @@ function checkLogIn() {
         } else {
             console.log("welcome!");
             // console.log(res);
-            // localStorage.setItem('userId', res.id);
             mainLogIn(res);
             headerLogIn();
         }
     })
-    //console.log(userDataBase);
-    // for (user in userDataBase) {
-    //     //console.log(userDataBase[user].psw);
-    //     if (userDataBase[user].user === userInput && userDataBase[user].psw === pswInput){
-    //         localStorage.setItem('userName', userDataBase[user].user);
-    //         return true;
-    //     } else {
-    //         continue;
-    //     }
-    // }
 }
 //Adds logged in main content w personal welcome msg and adds _id to LS
 function mainLogIn(userName) {
+    userInputField.value = '';
+    pswInputField.value = '';
     signUpDiv.remove();
     localStorage.removeItem('userId');
     localStorage.setItem('userId', userName._id);
     console.log(localStorage.getItem('userId'));
-    console.log(userName.user);
+    console.log(userName.newsletter);
     wcMessage.innerHTML = '';
-    wcMessage.insertAdjacentHTML('beforeend', `Welcome ${userName.user}!`);
+
+    wcMessage.insertAdjacentHTML('beforeend', `<div>Welcome ${userName.user}!</div>
+                                <div>${userName.newsletter ? "You are subscribed to the Black Mesa newsletter with email: " + userName.email : "You are NOT subscribed to the Black Mesa newsletter with email: " + userName.email}</div>
+                                <button class = "btnLog" id = "newsletterSubBtn">${userName.newsletter ? "Unsubscribe" : "Subscribe"}</button>`);
+    document.getElementById('newsletterSubBtn').addEventListener('click', () => {
+
+        let userSubPost = {"user": userName.user, "_id": userName._id, "newsletter": userName.newsletter}
+        fetch ('http://localhost:3000/login/subscribe/', {
+        method: 'post',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(userSubPost)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            
+            // console.log(localStorage.getItem('userId'));
+            mainLogIn(data);
+            headerLogIn();
+        })
+        console.log(userSubPost);
+    });
 };
 //Adds logged out main w generic welcome msg
 function mainLogOut() {
@@ -180,6 +182,11 @@ function mainError() {
 function mainSignUp(){
     wcMessage.innerHTML = 'Choose username and password for your account.';
     welcome.appendChild(signUpDiv);
+    if (document.getElementById('newsLetterSignUpCheckBox').checked == false){
+        console.log('not checked');
+    } else {
+        console.log('checked');
+    }
 }
 //Adds confirmation when new account is created
 function mainAccCreated(createdUser) {
@@ -204,14 +211,6 @@ function headerLogOut() {
 //log in button click
 btnLogIn.addEventListener('click', function() {
     checkLogIn();
-    // console.log(checkLogIn());
-    // if (checkLogIn()){
-    //     //console.log('Welcome!');
-    //     mainLogIn();
-    //     headerLogIn();
-    // } else {
-    //     mainError();
-    //     //console.log('Acces denied!');
 });
 //log out btn click
 btnLogOut.addEventListener('click', function(){
@@ -220,6 +219,8 @@ btnLogOut.addEventListener('click', function(){
 });
 //sign out btn click
 btnSignUp.addEventListener('click', function(){
+    signUpName.value = '';
+    signUpPsw.value = '';
     mainSignUp();
 });
 //cancel button click
@@ -234,9 +235,11 @@ btnCreateAccount.addEventListener('click', function(){
     } else {
         let newUser = {
             "user" : signUpName.value,
-            "password" : signUpPsw.value
+            "password" : signUpPsw.value,
+            "email" : signUpEmail.value,
+            "newsletter" : document.getElementById('newsLetterSignUpCheckBox').checked
         }
-        fetch('https://sjunnestrand-login-server.herokuapp.com/login/createAccount/', {
+        fetch('http://localhost:3000/login/createAccount/', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -252,18 +255,13 @@ btnCreateAccount.addEventListener('click', function(){
                 mainAccCreated(data);
             }
             
-    })
-        // userDataBase.push(newUser);
-        // localStorage.setItem('userDataBase', JSON.stringify(userDataBase));
-        // console.log(newUser);
-        // console.log(userDataBase);
-        // mainAccCreated(signUpName.value);
+        })
     };
 });
 function loggedInPageLoad(userIdLS) {
     let userIdPost = {"_id": userIdLS}
     console.log(userIdPost);
-    fetch ('https://sjunnestrand-login-server.herokuapp.com/login/loggedIn/', {
+    fetch ('http://localhost:3000/login/loggedIn/', {
         method: 'post',
         headers: {
             'Content-Type' : 'application/json'
@@ -273,9 +271,14 @@ function loggedInPageLoad(userIdLS) {
     .then(res => res.json())
     .then(data => {
         console.log(data);
-        // localStorage.setItem('userId', data);
         // console.log(localStorage.getItem('userId'));
         mainLogIn(data);
         headerLogIn();
     })
 }
+
+//http://localhost:3000/
+//https://sjunnestrand-login-server.herokuapp.com/
+
+//TODO: clean up code!
+//TODO: change fetch-URLs to variable

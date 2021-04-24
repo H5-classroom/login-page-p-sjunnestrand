@@ -107,7 +107,7 @@ section{
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: 30%;
+    /* height: 30%; */
     justify-content: space-evenly;
 }
 label{
@@ -128,4 +128,17 @@ label{
     font-family: 'Titillium Web', sans-serif; 
     font-size: 1.4rem;
     text-shadow: 0 0 5px white;
+}
+.newsLetterSignUpDiv{
+    display: flex;
+    margin-top: 10px;
+    gap: 5px;
+}
+.newsLetterSignUpText{
+    font-family: 'Titillium Web', sans-serif;
+    color:rgb(3, 166, 172);
+
+}
+#newsletterSubBtn{
+    width: auto;
 }
