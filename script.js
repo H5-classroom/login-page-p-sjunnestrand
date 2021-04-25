@@ -208,7 +208,7 @@ function mainAccCreated(createdUser) {
     signUpDiv.remove();
     wcMessage.innerHTML = '';
     wcMessage.insertAdjacentHTML('beforeend', `Account with username ${createdUser.user} created!`);
-    setTimeout(()=>{mainLogIn(createdUser), headerLogIn}, 1000);
+    setTimeout(()=>{mainLogIn(createdUser); headerLogIn();}, 1000);
 }
 //Adds logged in header w/o log in fields/btn & w log out btn
 function headerLogIn() {
