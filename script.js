@@ -1,5 +1,20 @@
 // const { stringify } = require("qs");
 
+// LOCAL SERVER
+const fetchAPI = {
+    login : 'http://localhost:3000/login/',
+    subscribe : 'http://localhost:3000/login/subscribe/',
+    createAccount : 'http://localhost:3000/login/createAccount/',
+    loggedIn : 'http://localhost:3000/login/loggedIn/'
+}
+// CLOUD SERVER
+// const fetchAPI = {
+//     login : 'https://sjunnestrand-login-server.herokuapp.com/login/',
+//     subscribe : 'https://sjunnestrand-login-server.herokuapp.com/login/subscribe/',
+//     createAccount : 'https://sjunnestrand-login-server.herokuapp.com/login/createAccount/',
+//     loggedIn : 'https://sjunnestrand-login-server.herokuapp.com/login/loggedIn/'
+// }
+
 //imports header and main sections
 const header = document.getElementById('header');
 const mainSect = document.getElementById('main');
@@ -96,7 +111,7 @@ welcome.appendChild(wcMessage);
 
 //initial page load checks if user is logged in or not and adds appropriate content
 let userLog = localStorage.getItem('userId');
-console.log(userLog);
+// console.log(userLog);
 if (userLog !== null) {
     loggedInPageLoad(userLog);
 } else {
@@ -107,8 +122,8 @@ if (userLog !== null) {
 function checkLogIn() {
     //sends entered values to server
     let userInput = {"user": userInputField.value, "password": pswInputField.value};
-    console.log(userInput);
-    fetch('http://localhost:3000/login/', {
+    // console.log(userInput);
+    fetch(fetchAPI.login , {
         method: 'post',
         headers: {
             'Content-Type': "application/json"
@@ -118,12 +133,12 @@ function checkLogIn() {
     //checks answer from server
     .then(res => res.json())
     .then(res => {
-        console.log(res)
+        // console.log(res)
         if(res.user == "denied"){
-            console.log("denied!");
+            // console.log("denied!");
             mainError();
         } else {
-            console.log("welcome!");
+            // console.log("welcome!");
             // console.log(res);
             mainLogIn(res);
             headerLogIn();
@@ -137,8 +152,8 @@ function mainLogIn(userName) {
     signUpDiv.remove();
     localStorage.removeItem('userId');
     localStorage.setItem('userId', userName._id);
-    console.log(localStorage.getItem('userId'));
-    console.log(userName.newsletter);
+    // console.log(localStorage.getItem('userId'));
+    // console.log(userName.newsletter);
     wcMessage.innerHTML = '';
 
     wcMessage.insertAdjacentHTML('beforeend', `<div>Welcome ${userName.user}!</div>
@@ -147,7 +162,7 @@ function mainLogIn(userName) {
     document.getElementById('newsletterSubBtn').addEventListener('click', () => {
 
         let userSubPost = {"user": userName.user, "_id": userName._id, "newsletter": userName.newsletter}
-        fetch ('http://localhost:3000/login/subscribe/', {
+        fetch (fetchAPI.subscribe, {
         method: 'post',
         headers: {
             'Content-Type' : 'application/json'
@@ -156,13 +171,13 @@ function mainLogIn(userName) {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            // console.log(data);
             
             // console.log(localStorage.getItem('userId'));
             mainLogIn(data);
             headerLogIn();
         })
-        console.log(userSubPost);
+        // console.log(userSubPost);
     });
 };
 //Adds logged out main w generic welcome msg
@@ -183,9 +198,9 @@ function mainSignUp(){
     wcMessage.innerHTML = 'Choose username and password for your account.';
     welcome.appendChild(signUpDiv);
     if (document.getElementById('newsLetterSignUpCheckBox').checked == false){
-        console.log('not checked');
+        // console.log('not checked');
     } else {
-        console.log('checked');
+        // console.log('checked');
     }
 }
 //Adds confirmation when new account is created
@@ -230,7 +245,7 @@ btnCancel.addEventListener('click', function(){
 });
 //create account btn click. Creates account with entered username & psw & pushes object to array & LS. If fields are empty, gives error msg.
 btnCreateAccount.addEventListener('click', function(){
-    console.log('click');
+    // console.log('click');
     if (signUpName.value === '' || signUpPsw.value === '') {
         wcMessage.innerHTML = 'Username and password must be at least one character long each!'
     } else {
@@ -240,7 +255,7 @@ btnCreateAccount.addEventListener('click', function(){
             "email" : signUpEmail.value,
             "newsletter" : document.getElementById('newsLetterSignUpCheckBox').checked
         }
-        fetch('http://localhost:3000/login/createAccount/', {
+        fetch(fetchAPI.createAccount, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -252,7 +267,7 @@ btnCreateAccount.addEventListener('click', function(){
             if(data == "taken"){
                 wcMessage.insertAdjacentHTML('afterbegin', `<div id = "warningMsg">Username not available! Please pick another!</div>`);
             } else {
-                console.log(data);
+                // console.log(data);
                 mainAccCreated(data);
             }
             
@@ -261,8 +276,8 @@ btnCreateAccount.addEventListener('click', function(){
 });
 function loggedInPageLoad(userIdLS) {
     let userIdPost = {"_id": userIdLS}
-    console.log(userIdPost);
-    fetch ('http://localhost:3000/login/loggedIn/', {
+    // console.log(userIdPost);
+    fetch (fetchAPI.loggedIn, {
         method: 'post',
         headers: {
             'Content-Type' : 'application/json'
@@ -271,7 +286,7 @@ function loggedInPageLoad(userIdLS) {
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data);
+        // console.log(data);
         // console.log(localStorage.getItem('userId'));
         mainLogIn(data);
         headerLogIn();
