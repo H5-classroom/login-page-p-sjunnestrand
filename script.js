@@ -1,19 +1,19 @@
 // const { stringify } = require("qs");
 
 // LOCAL SERVER
-const fetchAPI = {
-    login : 'http://localhost:3000/login/',
-    subscribe : 'http://localhost:3000/login/subscribe/',
-    createAccount : 'http://localhost:3000/login/createAccount/',
-    loggedIn : 'http://localhost:3000/login/loggedIn/'
-}
-// CLOUD SERVER
 // const fetchAPI = {
-//     login : 'https://sjunnestrand-login-server.herokuapp.com/login/',
-//     subscribe : 'https://sjunnestrand-login-server.herokuapp.com/login/subscribe/',
-//     createAccount : 'https://sjunnestrand-login-server.herokuapp.com/login/createAccount/',
-//     loggedIn : 'https://sjunnestrand-login-server.herokuapp.com/login/loggedIn/'
+//     login : 'http://localhost:3000/login/',
+//     subscribe : 'http://localhost:3000/login/subscribe/',
+//     createAccount : 'http://localhost:3000/login/createAccount/',
+//     loggedIn : 'http://localhost:3000/login/loggedIn/'
 // }
+// CLOUD SERVER
+const fetchAPI = {
+    login : 'https://sjunnestrand-login-server.herokuapp.com/login/',
+    subscribe : 'https://sjunnestrand-login-server.herokuapp.com/login/subscribe/',
+    createAccount : 'https://sjunnestrand-login-server.herokuapp.com/login/createAccount/',
+    loggedIn : 'https://sjunnestrand-login-server.herokuapp.com/login/loggedIn/'
+}
 
 //imports header and main sections
 const header = document.getElementById('header');
